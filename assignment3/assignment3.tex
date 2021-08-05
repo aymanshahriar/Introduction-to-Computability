@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem} %needed for lettered lists
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+% the preamble
+\title{Assignment 2}
+\author{Ayman Shahriar, UCID: 10180260}
+\date{\today}
+
+% start of the document content
+\begin{document}
+% command to display the title
+\maketitle
+
+% Question 1
+\textbf{1)} Suppose $M = (Q, \Sigma, \delta, q_0, A) $ and let $\delta^\star: Q \times \Sigma \rightarrow Q$ be it's extended transition function.\\
+Suppose $q \in Q$ and $x, y \in \Sigma^\star$\\
+We will use induction on $|x| = n$ to prove that $\delta^\star(q, xy) = \delta^\star(\delta^\star(q, x), y)$\\ \\
+But first, it will be useful to prove the following property:\\ 
+$\delta^\star(q, ay) = \delta^\star(\delta(q, a), y)$ for any $q \in Q$, $a \in \Sigma$ and $y \in \Sigma^\star$ \\
+We will prove this by using induction on $|y| = n$
+\begin{proof}
+Basis (n = 0): If $|y| = 0$, then $y = \epsilon$\\
+Then $\delta^\star(q, ay) = \delta^\star(q, a \epsilon) = \delta^\star(\delta(q, a), \epsilon) = \delta^\star(\delta(q, a), y)$, as required for this case\\ \\
+Inductive step: Suppose $k \ge 0$ is an integer such that $\delta^\star(q, ay) = \delta^\star(\delta(q, a), y)$, where $|y| = k$ (Inductive Hypothesis)\\
+We want to prove that $\delta^\star(q, ay) = \delta^\star(\delta(q, a), y)$ for $|y| = k+1$\\
+Now, suppose $|y| = k+1$, and $y = mb$ where $b \in \Sigma, m \in \Sigma^\star$\\
+Then $\delta^\star(q, ay) = \delta^\star(q, amb)$\\
+$= \delta(\delta^\star(q, am), b)$ (by definition of $\delta$)\\
+$= \delta(\delta^\star(\delta(q, a), m), b)$ (by using the inductive hypothesis, since $|m| = |y|-1 = k$)\\
+$= \delta^\star(\delta(q, a), mb)$ (by definition of $\delta$)\\
+$= \delta^\star(\delta(q, a), y)$, as required\\
+Thus, $\delta^\star(q, ay) = \delta^\star(\delta(q, a), y)$ for any $q \in Q$, $a \in \Sigma$ and $y \in \Sigma^\star$ \\
+\end{proof}
+Now we will move on to our main proof:
+\begin{proof}
+Basis (n = 0): Then $|x| = 0$, so $x = \epsilon$\\
+Then $\delta^\star(q, x) = \delta^\star(q, \epsilon ) = q$\\
+So $\delta^\star(q, xy) = \delta^\star(q, \epsilon y) = \delta^\star(q, y) = \delta^\star(\delta^\star(q, x), y)$, as required for this case\\ \\
+Inductive step: Suppose $k \ge 0$ is an integer such that $\delta^\star(q, xy) = \delta^\star(\delta^\star(q, x), y)$, where $|x| = k$\\
+We want to prove that $\delta^\star(q, xy) = \delta^\star(\delta^\star(q, x), y)$ for $|x| = k+1$\\
+Let $x = ma$ where $|x| = k+1$, $m \in \Sigma^\star$, $|m| = k$ and $a \in \Sigma$\\
+Then $\delta^\star(q, xy) = \delta^\star(q, may)$\\
+$= \delta^\star(\delta^\star(q, m), ay)$ \ (by the inductive hypothesis, since $|m| = |x|-1 = k$)\\
+$= \delta^\star(\delta(\delta^\star(q, m), a), y)$ \ (by using the property proved before)\\
+$ = \delta^\star(\delta^\star(q, ma), y)$ \ (by definition of $\delta^\star$)\\
+$= \delta^\star(\delta^\star(q, x), y)$, as required\\ \\
+Thus, $\delta^\star(q, xy) = \delta^\star(\delta^\star(q, x), y)$
+for any $q \in Q$ and $x, y \in \Sigma^\star$\\
+\end{proof}
+
+% Question 2
+\textbf{2)} Suppose $M = (Q, \Sigma, \delta, q_0, A)$ is a deterministic finite state machine such that $L(M) = L$. Suppose that $|Q| = 2$. Let $Q = \{a, b\}$. We have the following cases:\\
+\textbf{case 1:} $A = \emptyset$\\
+Then $\forall x \in \Sigma^\star$, $\delta^\star(q_0, x) \notin A$\\
+So $L = \emptyset$\\ \\
+\textbf{case 2:} $q_0 = q_a, A = \{q_a\}$ \\
+Then $q_0 \in A$, so $\delta^\star(q_0, \epsilon) \in A$\\
+So $\epsilon \in L(M) = L$\\ \\
+\textbf{case 3:} $ q_0 = q_b, A = \{q_b\}$\\
+Then $q_0 \in A$, so $\delta^\star(q_0, \epsilon) \in A$\\
+So $\epsilon \in L(M) = L$\\ \\
+\textbf{case 4:} $q_0 = q_a, A = \{q_a, q_b\}$\\
+Then $q_0 \in A$, so $\delta^\star(q_0, \epsilon) \in A$\\
+So $\epsilon \in L(M) = L$\\ \\
+\textbf{case 5:} $q_0 = q_b, A = \{q_a, q_b\}$\\
+Then $q_0 \in A$, so $\delta^\star(q_0, \epsilon) \in A$\\
+So $\epsilon \in L(M) = L$\\ \\
+\textbf{case 6:} $q_0 = q_a, A = \{q_b\}$\\
+If $\delta(q_a, a) = q_b$ for some $a \in \Sigma$, then\\
+$\delta(q_a, a) = q_b \Leftrightarrow \delta(\delta^\star(q_0, \epsilon), a) = q_b$\\
+$\Leftrightarrow \delta^\star(q_a, a) = q_b$\\
+$\Leftrightarrow \delta^\star(q_a, a) \in A$ (since $q_b$ is the only element of $A$)\\ 
+$\Leftrightarrow a \in L(M) = L$\\ \\
+If $\delta(q_a, a) \neq q_b$ for all $a \in \Sigma$,\\ 
+then $\delta(q_a, a) = q_a$ for all $a \in \Sigma$\\
+So $\forall x \in \Sigma^\star, \delta^\star(q_0, x) \neq q_b$ (where $q_0 = q_a$)\\
+Then $\delta^\star(q_0, x) \notin A$\\
+So $\forall x \in \Sigma^\star, x \notin L$\\
+So $L = \emptyset$\\ \\ \\
+\textbf{case 7:} $q_0 = q_b, A = \{q_a\}$\\
+If $\delta(q_b, a) = q_a$ for some $a \in \Sigma$, then\\
+$\delta(q_b, a) = q_a \Leftrightarrow \delta(\delta^\star(q_0, \epsilon), a) = q_a$\\
+$\Leftrightarrow \delta^\star(q_b, a) = q_a$\\
+$\Leftrightarrow \delta^\star(q_b, a) \in A$ (since $q_a$ is the only element of $A$)\\
+$\Leftrightarrow a \in L(M) = L$\\ \\
+If $\delta(q_b, a) \neq q_a$ for all $a \in \Sigma$,\\ 
+then $\delta(q_b, a) = q_a$ for all $a \in \Sigma$\\
+So $\forall x \in \Sigma^\star, \delta^\star(q_0, x) \neq q_a$ (where $q_0 = q_b$)\\
+Then $\delta^\star(q_0, x) \notin A$\\
+So $\forall x \in \Sigma^\star, x \notin L$\\
+So $L = \emptyset$ \\ \\
+Thus, for all cases where $|Q| = 2$, $L = \emptyset$ or $\epsilon \in L$ or $\exists a \in \Sigma$ such that $a \in L$. \\ \\
+
+
+%Queston 3
+\textbf{3)} Suppose $L$ is a finite state language over the aplhabet $\Sigma$. Then $L$ is regular, so there exists a finite state machine $M = \{Q, \Sigma, \delta, q_0, A \}$ such that $L(M) = L$. Since $L$ is finite, there exists a word whose length is greater than or equal to the length of all the other words in $L$. Suppose the length of the longest word in $L$ is $n$.\\ 
+We will define each component of M:\\ \\
+$Q = \{q_x: x \in \Sigma^\star, |x| \le n \} \cup \{q_{ds}\} $ \\
+Each state $q_x \in Q$ corresponds to a word $x \in \Sigma^\star$ whose length is less than or equal to the longest word in L. Also, there is a dead state $q_{ds}$ that will loop back to itself whatever the input.\\ \\
+$\Sigma$ = the alphabet that $L$ uses\\ \\
+Let $a \in \Sigma$\\
+If $|x| < n$, then $\delta(q_x, a) = q_y$, where $y = xa$ and $|y| = |x| + 1$\\
+If $|x| = n$, then $\delta(q_x, a) = q_{ds}$\\ \\
+$q_0 = q_x$, where $|x| = 0$. Then $x = \epsilon$, So $q_0 = q_{\epsilon}$\\ \\
+$A = \{q_x \in Q: x \in L\}$\\ \\
+Proof that $L(M) = L$:\\
+\begin{proof} Suppose $x \in L(M)$. \\ 
+$\Leftrightarrow \delta^\star(q_0, x) \in A$ (by definition of a machine accepting a word)\\ 
+Now we have two cases:\\ \\
+Case 1: $x \neq \epsilon$\\
+Then $\delta^\star(q_0, x) \in A \Leftrightarrow \delta^\star(q_0, ay) \in A$ (where $x = ay, a \in \Sigma, y \in \Sigma^\star, |y| = |x|-1$)\\
+$\Leftrightarrow \delta(\delta^\star(q_0, a), y) \in A$ (by definition of $\delta^\star)$\\
+$\Leftrightarrow \delta(\delta^\star(q_0, \epsilon a), y) \in A$\\
+$\Leftrightarrow \delta(\delta(\delta^\star(q_0, \epsilon), a), y) \in A$ (by definition of $\delta^\star$)\\
+$\Leftrightarrow \delta(\delta(q_0, a), y) \in A$ (by definition of $\delta^\star)$\\
+$\Leftrightarrow \delta(\delta(q_\epsilon, a), y) \in A$ (since $q_0 = q_\epsilon$)\\
+$\Leftrightarrow \delta(q_{\epsilon a}, y) \in A$ (by definition of $\delta$, where $|\epsilon| < |x|$ so $|\epsilon| < n$ ) \\
+$\Leftrightarrow \delta(q_{a}, y) \in A$ \\
+$\Leftrightarrow q_{ay} \in A$ (by definition of $\delta$ ,where $|y| = |x|-1$ so $|y| < n)$ \\
+$\Leftrightarrow q_x \in A$ \\
+Now, since $A = \{q_w \in Q: w \in L\}$, and $q_x \in A$, we get\\ 
+$q_x \in A \Leftrightarrow x \in L$, as required for this case\\ \\
+Case 2: $x = \epsilon$\\
+Then $\delta^\star(q_0, x) \in A \Leftrightarrow \delta^\star(q_0, \epsilon) \in A$\\
+$\Leftrightarrow q_0 \in A$ (by definition of $\delta^\star$)\\
+$\Leftrightarrow q_\epsilon \in A$ (since $q_0 = q_\epsilon$)\\
+Now, since $A = \{q_w \in Q: w \in L\}$, and $q_\epsilon \in A$, we get\\
+$q_x \in A \Leftrightarrow x \in L$, as required for this case\\ \\
+Thus, we have proved that $L(M) = L$
+
+\end{proof}
+
+\end{document}

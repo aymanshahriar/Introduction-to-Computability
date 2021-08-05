@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem} %needed for lettered lists
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{tikz}  %%%% Needed for fsa diagrams
+
+% the preamble
+\linespread{1.3}    %%%%%%%% This increases space between lines
+\title{Assignment 2}
+\author{Ayman Shahriar, UCID: 10180260}
+\date{\today}
+
+% start of the document content
+\begin{document}
+% command to display the title
+\maketitle
+
+%Question1
+\textbf{1)} We will prove that $L = \{a^ib^jc^k: i=j \wedge i=k\}$ is not regular using the pumping lemma and contradiction
+\begin{proof} Suppose L is regular. Then it has a pumping length $n \geq 0$\\
+Let $w = a^nb^nc^n$. Then $w \in L$ because $n=n$, and note that $|w| = |a^n b^n c^n| = 3n \geq n$\\
+Suppose $w = xyz$ such that $|xy| \leq n$ and $|y| \geq 1$ (so $y \neq \epsilon$)\\
+Then since $w = a^nb^nc^n$ and $|xy| \leq n$, we must have that $xy = a^pa^q$ for some $0 < p+q \leq n$ (that is, $xy$ can only consist of $a$'s).\\
+Let $x = a^p, y = a^q$ (where $p \ge 0$ and $q \ge 1$ since $y \neq \epsilon$)\\
+Then $z = a^{n-p-q}b^nc^n$\\
+Now consider the word $w^{(0)} = xy^0z$\\
+$w^{(0)} = xy^0z = a^pb^{n-p-q}b^nc^n = a^{n-q}b^nc^n$\\
+Since $n-q \neq n$ (because $q \ge 1$), it means that $w^{(0)}$ is not an element of L.\\
+So the pumping lemma does not hold for this language, which contradicts the assumption that this language is regular.\\
+Thus, L is not regular
+\end{proof}
+
+%Question2
+\textbf{2)} We will prove that $L = \{0^i1^j: i \neq j\}$ is not regular using pumping lemma, contradiction and closure properties.
+\begin{proof}
+Suppose $L$ is regular. Then it's complement $\overline{L} = \Sigma^\star- L$ should also be regular.\\
+Note that $\overline{L}=\{0^i1^j: i = j\}$\\
+Since $\overline{L}$ is regular, it has a pumping length $n \ge 0$\\
+Let $w = 0^n1^n$. Then $w \in \overline{L}$ \ because $n = n$, and note that $|w| = |0^n1^n| = 2n \ge n$\\
+Now suppose $w = xyz$ where $|xy| \leq n$ and $|y| \ge 1$ (so $y \neq \epsilon$).\\
+Since $w = 0^n1^n$ and $|xy| \leq n$, it must be that $xy = 0^a0^b$ for some $0 < a+b \le n$\\
+(That is, $xy$ can only consist of zeros)\\
+Let $x = 0^a, y = 0^b$ (where $a \ge 0$ and $b \ge 1$ because $y \neq \epsilon$)\\
+Then $z = 0^{n-a-b}1^n$\\
+Now, consider the word $w^{(0)} = xy^0z$\\
+$w^{(0)}=xy^0z=0^a0^{n-a-b}1^n=0^{n-b}1^n$\\
+However, since $n-b \neq n$ (where $b \ge 1$), it means that $w^{(0)}$ is not an element of $\overline{L}$.
+So the pumping lemma does not hold for $\overline{L}$, which means that $\overline{L}$ is not regular.\\
+And since $\overline{L}$ is not regular, it means that $L$ must have not been regular to begin with, so we get a contradiction.\\
+Thus, $L$ is not regular.
+\end{proof}
+
+%Question 3
+\textbf{3)} Let $\Sigma = \{\emptyset, \epsilon, a, b, (, ), +, \star\}$\\
+Then the context free grammar that generates all strings in $\Sigma^\star$ that are valid regular expressions would be:
+
+$S \rightarrow SS | S+S | S\star$
+
+$S \rightarrow (S)$
+
+$S \rightarrow \emptyset | \epsilon | a | b$
+
+
+
+
+
+
+
+
+
+
+\end{document}
